@@ -11,7 +11,9 @@ const PORT = process.env.PORT || 3000;
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.static('public')); // Serve static files from 'public' directory
+// Use absolute path for static files to ensure it works in all environments
+const path = require('path');
+app.use(express.static(path.join(__dirname, 'public'))); // Serve static files from 'public' directory
 
 
 // MongoDB Connection
@@ -45,9 +47,9 @@ const UserSchema = new mongoose.Schema({
 const User = mongoose.model('User', UserSchema);
 
 // Routes
-// app.get('/', (req, res) => {
-//     res.send('Bank Backend is running');
-// });
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
 
 
 app.post('/api/login', async (req, res) => {
@@ -72,6 +74,12 @@ app.post('/api/login', async (req, res) => {
     }
 });
 
-app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
-});
+// Export the app for Vercel (Serverless)
+module.exports = app;
+
+// Only start listening if we are NOT in a serverless environment
+if (require.main === module) {
+    app.listen(PORT, () => {
+        console.log(`Server running on port ${PORT}`);
+    });
+}
