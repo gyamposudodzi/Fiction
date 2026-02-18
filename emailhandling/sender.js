@@ -2,16 +2,15 @@ const nodemailer = require('nodemailer');
 require('dotenv').config();
 
 const transporter = nodemailer.createTransport({
-    service: 'gmail',
-    host: 'smtp.gmail.com', // Explicit host
-    port: 465, // Explicit port
-    secure: true, // true for 465, false for other ports
+    host: 'smtp.hostinger.com', // Hostinger SMTP Server
+    port: 465, // Secure SSL port
+    secure: true, // true for 465
     auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS
+        user: process.env.EMAIL_USER, // Your full custom email address
+        pass: process.env.EMAIL_PASS  // Your email account password
     },
+    family: 4, // Force IPv4 to avoid IPv6 connection issues
     tls: {
-        // do not fail on invalid certs
         rejectUnauthorized: false
     }
 });
